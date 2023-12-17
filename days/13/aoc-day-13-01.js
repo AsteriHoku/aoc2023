@@ -51,8 +51,9 @@ function checkP(p){
 function checkRest(p, i){
 	let count = i;
 	if (count >= (p.length-1-i)){
-		count--;//keep inside bounds of the array
+		count = p.length-2-i;//keep inside bounds of the array
 	}
+	//if len-i >
 	let step = 0;
 	while (count > 0){
 		if (p[i-(1+step)] !== p[i+(2+step)]){
