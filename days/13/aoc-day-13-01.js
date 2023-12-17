@@ -1,45 +1,26 @@
 ﻿const fs = require('fs');
 let patterns = fs.readFileSync('input-13.txt').toString().split('\r\n\r\n');
-let sum = 0n;
-
-//test
-let testPatterns = fs.readFileSync('testinput-13.txt').toString().split('\r\n\r\n');
-
-//solve
+let sum = 0;
 
 for (let x = 0; x < patterns.length; ++x){
-	let pattern = patterns[x].split('\r\n');
-	pattern = pattern.map(s => s.trim());
-	console.log('solving for:');
-	pattern.forEach(str => console.log(str));
-	let patternScore = solveForPattern(pattern);
-	if (!patternScore){
-		console.log(`\t\t---> ERROR\tno score was found for patterns[${x}]`);
-	} else {
-		console.log(`pattern ${x+1} scored ${patternScore}`);
-		sum += BigInt(patternScore);
-	}
+	let pattern = patterns[x].split('\r\n').map(s => s.trim());		
+	sum += solveForPattern(pattern);
 }
 
 console.log(`Congratulations, you've reached the end and the sum is ${sum}`);
 
 function solveForPattern(p){
-	let pscore = checkP(p);
-	if (pscore > 0){
-		return pscore*100;
+	let href = checkP(p);
+	if (href){
+		return href*100;
 	}
-	console.log('no horizontal match found');
 	const flippedP = flipP(p);
-	pscore = checkP(flippedP);
-	if (pscore > 0){
-		return pscore;
-	}
+	return checkP(flippedP);
 }
 
 function checkP(p){
 	for (let i = 0; i < p.length-1; ++i){
 		if (p[i] === p[i+1]) {
-			// found a reflection, check further
 			let passed = checkRest(p, i);
 			if (passed > 0) {
 				return passed;
@@ -51,14 +32,13 @@ function checkP(p){
 function checkRest(p, i){
 	let count = i;
 	if (count >= (p.length-1-i)){
-		count = p.length-2-i;//keep inside bounds of the array
+		//keep inside bounds of the array whether the line of
+		//reflection is in first or second half of array
+		count = p.length-2-i;
 	}
-	//if len-i >
 	let step = 0;
 	while (count > 0){
 		if (p[i-(1+step)] !== p[i+(2+step)]){
-			//console.log('checking for further matches in checkRest and the next check does not match');
-			//console.log(`${p[i-(1+step)]}\tcomparing to\t${p[i+(2+step)]}`);
 			return 0;
 		}
 		count--;
@@ -68,13 +48,7 @@ function checkRest(p, i){
 }
 
 function flipP(arr) {
-	console.log('transposing p:');
-
-	let charArrsArr = arr.map(str => str.split(''));
-	const tranChars = charArrsArr[0].map((_, colIndex) => charArrsArr.map(row => row[colIndex]));
-	const arr90 = tranChars.map(row => row.reverse().join(''));
-	
-	console.log('transposed p is now:');
-	arr90.forEach(str => console.log(`\t${str}`));
-	return arr90;
+	const charArrsArr = arr.map(str => str.split(''));
+	const arr90 = charArrsArr[0].map((_, colIndex) => charArrsArr.map(row => row[colIndex]));
+	return arr90.map(row => row.reverse().join(''));
 }
