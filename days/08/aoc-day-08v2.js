@@ -69,10 +69,11 @@ console.log(`found ans ${ans}`);
 function runPattern() {
 	let current = ll.head;
 	for (let i = 0; i < pattern.length; ++i) {
+		//console.log(`current is ${current.val}`);
 		let str = `index ${i} ${current.val}`;
 		if (pattern[i] === 'L') str += ` needs L: ${current.L}`;
 		if (pattern[i] === 'R') str += ` needs R: ${current.R}`;
-		console.log(str);
+		//console.log(str);
 		if (current.val === 'NJK'){
 			console.log('found prev');
 		}

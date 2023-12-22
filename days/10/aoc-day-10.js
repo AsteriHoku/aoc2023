@@ -1,5 +1,5 @@
 ﻿const fs = require('fs');
-const charArr = fs.readFileSync('testinput-v1-10.txt').toString().replaceAll('\r','').split('\n');
+const lines = fs.readFileSync('testinput-v1-10.txt').toString().replaceAll('\r','').split('\n');
 
 console.log(typeof charArr);
 console.dir(charArr);
@@ -10,3 +10,5 @@ console.dir(charArr);
 
 //if below is L, go down & right
 //if left is L, go left & up
+
+
