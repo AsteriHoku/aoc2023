@@ -1,13 +1,8 @@
 ﻿const fs = require('fs');
 let lines = fs.readFileSync('input-08.txt').toString().split('\r\n');
+//set pattern to 
 let pattern = lines[0].trim();
 lines = lines.map(l => l.trim()).slice(2);
-
-const lcm = (...arr) => {
-    const gcd = (x, y) => (!y ? x : gcd(y, x % y));
-    const _lcm = (x, y) => (x * y) / gcd(x, y);
-    return [...arr].reduce((a, b) => _lcm(a, b));
-};
 
 //create inputs & As
 const As = [];
@@ -27,10 +22,10 @@ for (let i = 0; i < lines.length; ++i) {
 console.dir(As);
 
 //solve
-let ans = runAs();
+let ans = runForAs();
 console.log(`found ans ${ans}`);
 
-function runAs(){
+function runForAs(){
     let individualSteps = [];
     for (let i = 0; i < As.length; ++i){
         individualSteps.push(runPattern(As[i]));
