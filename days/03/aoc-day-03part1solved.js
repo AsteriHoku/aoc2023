@@ -11,7 +11,7 @@ for (let x = 0; x < lines.length; ++x) {
 	}
 }
 
-console.log(`Congratulations you've reached the end with b and the sum is ${sum}`);
+console.log(`Congratulations you've reached the end and the sum is ${sum}`);
 
 function solveForNeighbors(x, y) {
 	let neighborSum = 0;
@@ -30,84 +30,56 @@ function isDigit(char) {
 }
 
 function getNumFromString(str, index) {
-	let result = "";
+	let res = "";
 
-	for (let i = index; i >= 0; i--) {
-		if (/\d/.test(str[i])) {
-			result = `${str[i]}${result}`;
-		} else {
-			break;
-		}
+	for (let i = index; i >= 0; --i) {
+		if (isDigit(str[i])) {
+			res = `${str[i]}${res}`;
+		} else break;
 	}
 
-	for (let i = index + 1; i < str.length; i++) {
-		if (/\d/.test(str[i])) {
-			result += str[i];
-		} else {
-			break;
-		}
+	for (let i = index + 1; i < str.length; ++i) {
+		if (isDigit(str[i])) {
+			res += str[i];
+		} else break;
 	}
 
-	return result;
+	return res;
 }
 
 function solveForNorth(northLine) {
 	let northSum = 0;
 	if (isDigit(northLine[3])) {
 		//middle is a digit
-		let foo = getNumFromString(northLine, 3);
-		if (isNaN(parseInt(foo))) {
-			console.error(`isNaN for foo ${foo}`);
-		} else {
-			northSum += parseInt(foo);
-		}
+		const foo = getNumFromString(northLine, 3);
+		northSum += parseInt(foo);
 	} else {
 		if (isDigit(northLine[2])) {
-			let numOne = getNumFromString(northLine, 2);
-			if (isNaN(parseInt(numOne))) {
-				console.error(`isNaN for partOne ${numOne}`);
-			} else {
-				northSum += parseInt(numOne);
-			}
+			const numOne = getNumFromString(northLine, 2);
+			northSum += parseInt(numOne);
 		}
 		if (isDigit(northLine[4])) {
-			let numTwo = getNumFromString(northLine, 4);
-			if (isNaN(parseInt(numTwo))) {
-				console.error(`isNaN for partOne ${numTwo}`);
-			} else {
-				northSum += parseInt(numTwo);
-			}
+			const numTwo = getNumFromString(northLine, 4);
+			northSum += parseInt(numTwo);
 		}
 	}
 	return northSum;
 }
 
-function solveForSouth(southLine){
+function solveForSouth(southLine) {
 	let southSum = 0;
-	if (!isDigit(southLine[3])) {
+	if (isDigit(southLine[3])) {
+		//middle is a digit
+		const baz = getNumFromString(southLine, 3);
+		southSum += parseInt(baz);
+	} else {
 		if (isDigit(southLine[2])) {
-			let numOne = getNumFromString(southLine, 2);
-			if (isNaN(parseInt(numOne))) {
-				console.error(`isNaN for partOne ${numOne}`);
-			} else {
-				southSum += parseInt(numOne);
-			}
+			const numOne = getNumFromString(southLine, 2);
+			southSum += parseInt(numOne);
 		}
 		if (isDigit(southLine[4])) {
-			let numTwo = getNumFromString(southLine, 4);
-			if (isNaN(parseInt(numTwo))) {
-				console.error(`isNaN for partOne ${numTwo}`);
-			} else {
-				southSum += parseInt(numTwo);
-			}
-		}
-	} else {
-		//middle is a digit
-		let baz = getNumFromString(southLine, 3);
-		if (isNaN(parseInt(baz))) {
-			console.error(`isNaN for foo ${baz}`);
-		} else {
-			southSum += parseInt(baz);
+			const numTwo = getNumFromString(southLine, 4);
+			southSum += parseInt(numTwo);
 		}
 	}
 	return southSum;
@@ -116,22 +88,12 @@ function solveForSouth(southLine){
 function solveInline(x, y) {
 	let inLineSum = 0;
 	if (isDigit(lines[x][y - 1])) {
-		//solve for left of symbol
-		let left = lines[x].slice(y - 3, y).join('').match(/\d/g).join('');
-		if (isNaN(parseInt(left))) {
-			console.error(`isNan for left ${left}`);
-		} else {
-			inLineSum += parseInt(left);
-		}
+		const left = lines[x].slice(y - 3, y).join('').match(/\d/g).join('');
+		inLineSum += parseInt(left);
 	}
 	if (isDigit(lines[x][y + 1])) {
-		//solve for right of symbol
-		let right = lines[x].slice(y + 1, y + 4).join('').match(/\d/g).join('');
-		if (isNaN(parseInt(right))) {
-			console.error(`isNan for right ${right}`);
-		} else {
-			inLineSum += parseInt(right);
-		}
+		const right = lines[x].slice(y + 1, y + 4).join('').match(/\d/g).join('');
+		inLineSum += parseInt(right);
 	}
 	return inLineSum;
 }
